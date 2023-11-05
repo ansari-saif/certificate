@@ -7,20 +7,19 @@ from .utils import generate_certificate_pdf, generate_unique_code
 from .forms import EmailForm
 from django.shortcuts import get_object_or_404
 from .models import UserProfile
-from django.views.decorators.csrf import csrf_exempt
+from django.template import RequestContext
 
 class ValidateEmailView(View):
     template_name = 'validate_email.html'
 
-    @csrf_exempt
+    # @csrf_exempt
     def get(self, request):
         form = EmailForm()
         return render(request, self.template_name, {'form': form})
 
-    @csrf_exempt
+    # @csrf_exempt
     def post(self, request):
         form = EmailForm(request.POST)
-        print('here')
         if form.is_valid():
             email = form.cleaned_data['email']
             try:
@@ -33,18 +32,17 @@ class ValidateEmailView(View):
                 return redirect(f'certificate/{user_profile.unique_code}/')  # Replace 'success_page' with your actual URL name
             except UserProfile.DoesNotExist:
                 form.add_error('email', 'Email address not found in the database.')
-        return render(request, self.template_name, {'form': form})
+        # return render_to_response("login.html", self.template_name, {'form': form}, context_instance=RequestContext(request))
+        return render(request, self.template_name, {'form': form}, context_instance=RequestContext(request))
     
 class CertificateView(View):
     template_name = 'certificate.html'
-    @csrf_exempt
     def get(self, request, unique_code):
 
         user_profile = get_object_or_404(UserProfile, unique_code=unique_code)
         return render(request, self.template_name, {'user_profile': user_profile})
 
 class DownloadCertificateView(View):
-    @csrf_exempt
     def get(self, request, unique_code):
         user_profile = get_object_or_404(UserProfile, unique_code=unique_code)
 
