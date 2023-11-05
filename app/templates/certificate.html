@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100xdevs Certificate</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script> -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <div class="container pm-certificate-container">
+        <div class="outer-border"></div>
+        <div class="inner-border"></div>
+        <div class="pm-certificate-border col-xs-12">
+            <div class="row pm-certificate-body">
+                <div class="pm-certificate-block">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-2"></div>
+                            <div class="pm-certificate-name underline margin-0 col-xs-8 text-center">
+                                <img class="img-responsive" src="{% static 'logo.png' %}" alt=""
+                                    style="width: 85px;height: 85px;border-radius: 50%;position: absolute;top: 0;left: 0;outline: 5px solid #618597;">
+                                <span class="pm-name-text bold">100xdevs</span>
+                            </div>
+                            <div class="col-xs-2"><!-- LEAVE EMPTY --></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-2"><!-- LEAVE EMPTY --></div>
+                            <div class="pm-earned col-xs-8 text-center">
+                                <span class="pm-credits-text block bold sans">Certificate </span>
+                            </div>
+                            <div class="col-xs-2"><!-- LEAVE EMPTY --></div>
+                            <div class="col-xs-12"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-2"><!-- LEAVE EMPTY --></div>
+                            <div class="pm-course-title underline col-xs-8 text-center">
+                                <span class="pm-credits-text block bold sans">#{{user_profile.unique_code}}</span>
+                            </div>
+                            <div class="col-xs-2"><!-- LEAVE EMPTY --></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row pm-certificate-footer">
+                        <div class="col-xs-4 pm-certified col-xs-4 text-center">
+                            <span class="pm-credits-text block sans">Name</span>
+                            <span class="pm-empty-space block underline"></span>
+                            <span class="bold block">{{ user_profile.name }}</span> <!-- User's name -->
+                        </div>
+                        <div class="col-xs-4">
+                            <!-- LEAVE EMPTY -->
+                        </div>
+                        <div class="col-xs-4 pm-certified col-xs-4 text-center">
+                            <span class="pm-credits-text block sans">Date Completed</span>
+                            <span class="pm-empty-space block underline"></span>
+                            <span class="bold block">{{ user_profile.completion_date }}</span> <!-- Completion date -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container main-button">
+        <div class="row">
+                <a  class="col-md-6" href="{% url 'download_certificate' unique_code=user_profile.unique_code %}"
+                    class="login100-form-btn"><button class="login100-form-btn">Download</button></a>
+
+            <a class="col-md-6" href="/"><button class="login100-form-btn">Back Now</button></a>
+        </div>
+    </div>
+</body>
+
+</html>
