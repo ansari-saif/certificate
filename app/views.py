@@ -7,14 +7,17 @@ from .utils import generate_certificate_pdf, generate_unique_code
 from .forms import EmailForm
 from django.shortcuts import get_object_or_404
 from .models import UserProfile
+from django.views.decorators.csrf import csrf_exempt
 
 class ValidateEmailView(View):
     template_name = 'validate_email.html'
 
+    @csrf_exempt
     def get(self, request):
         form = EmailForm()
         return render(request, self.template_name, {'form': form})
 
+    @csrf_exempt
     def post(self, request):
         form = EmailForm(request.POST)
         print('here')
@@ -34,25 +37,14 @@ class ValidateEmailView(View):
     
 class CertificateView(View):
     template_name = 'certificate.html'
+    @csrf_exempt
     def get(self, request, unique_code):
 
         user_profile = get_object_or_404(UserProfile, unique_code=unique_code)
         return render(request, self.template_name, {'user_profile': user_profile})
 
-        pdf_response = generate_certificate_pdf(user_profile)
-
-        certificate_file_path = f'{unique_code}_certificate.pdf'
-
-        with open(certificate_file_path, 'wb') as certificate_file:
-            certificate_file.write(pdf_response.read())
-
-        with open(certificate_file_path, 'rb') as pdf_file:
-            response = HttpResponse(pdf_file.read(), content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="{unique_code}_certificate.pdf"'
-
-        return response
-
 class DownloadCertificateView(View):
+    @csrf_exempt
     def get(self, request, unique_code):
         user_profile = get_object_or_404(UserProfile, unique_code=unique_code)
 
